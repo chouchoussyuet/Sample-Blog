@@ -1,0 +1,60 @@
+@font-face {
+    font-family : eb;
+    src : url('../font/EB_Garamond/EBGaramond-VariableFont_wght.ttf')
+}
+
+
+@font-face {
+    font-family : headline;
+    src : url('../font/Pacifico/Pacifico-Regular.ttf')
+}
+
+body {
+    background-image: url('../img/post.png');
+    background-repeat : no-repeat;
+    background-size : cover;
+}
+
+form {
+    margin-top : 170px;
+    margin-left : 50px;
+    font-family : 'eb';
+}
+
+input, option {
+    background-color : rgba(225, 225, 225, 0.792);
+    padding: 3px 3px 3px 3px;
+    border: none;
+    outline :none;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom : 20px;
+    font-family: 'eb';
+}
+
+textarea {
+        background-color : rgba(152, 131, 131, 0.792);
+        padding: 3px 3px 3px 3px;
+        border: none;
+        outline :none;
+        border-radius: 20px;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom : 20px;
+        font-family: 'eb';
+        height : 100px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    position: fixed;
+    bottom: 0; /* Đặt ở đáy của trang */
+    right: 0; /* Đặt ở bên trái của trang */
+    padding: 25px; /* Điều chỉnh khoảng cách với bên dưới và bên trái */
+    margin: 10px; /* Xóa margin */
+    background-color: rgba(0, 0, 0, 0.5); /* Tạo một nền mờ để tạo sự đối比 với nội dung chính */
+    color: rgba(238, 238, 238, 0.862); /* Màu chữ trắng */
+    font-family : 'headline';
+    font-size : 20px;
+
+}

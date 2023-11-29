@@ -1,0 +1,32 @@
+@font-face {
+    font-family : eb;
+    src : url('../font/EB_Garamond/EBGaramond-VariableFont_wght.ttf')
+}
+
+
+@font-face {
+    font-family : headline;
+    src : url('../font/Pacifico/Pacifico-Regular.ttf')
+}
+
+body {
+    background-image: url('../img/Cream\ and\ Brown\ Aesthetic\ Simple\ Registration\ Gym\ Class\ Website\ Prototype.png');
+    background-repeat : no-repeat;
+    background-size : cover;
+}
+
+#task {
+    margin-top: 220px;
+    margin-bottom: 50px;
+}
+
+#post-list {
+        display : flex;
+        background-color : rgba(146, 125, 125, 0.726);
+        padding : auto;
+        border-radius : 20px;
+        position : relative;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+}

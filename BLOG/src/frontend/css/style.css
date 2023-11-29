@@ -1,0 +1,63 @@
+/* style.css */
+
+@font-face {
+    font-family : headline;
+    src : url('../font/Pacifico/Pacifico-Regular.ttf')
+}
+
+@font-face {
+    font-family : blog;
+    src : url('../font/Lilita_One/LilitaOne-Regular.ttf')
+}
+body {
+    background-image: url('../img/backwelcome.png');
+    background-repeat : no-repeat;
+    background-size : cover;
+}
+
+header {
+    padding: 20px;
+    padding-left : 20px;
+    text-align:end;
+    font-size : 20px;
+    color : rgb(109, 103, 103);
+}
+
+a {
+    color: inherit; /* Kế thừa màu chữ từ phần tử cha (thường là màu chữ mặc định của trình duyệt) */
+    text-decoration: none; /* Loại bỏ gạch chân mặc định */
+    padding-left : 20px;
+}
+
+.titles {
+    color : rgb(86, 84, 84);
+    font-family : 'headline';
+    font-size : 30px;
+}
+
+main {
+    padding-left : 20px;
+    margin-left : 70px;
+    text-align:end;
+}
+
+input {
+    background-color : rgba(225, 225, 225, 0.792);
+    padding: 3px 3px 3px 3px;
+    border: none;
+    outline :none;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom : 20px;
+    font-family: 'headline';
+}
+
+button {
+    background-color : rgba(254, 253, 255, 0.514);
+    color : rgb(105, 86, 86);
+    padding : 5px 10px;
+    cursor : pointer;
+    border-radius: 50px;
+    border: 1px solid grey;
+}
+

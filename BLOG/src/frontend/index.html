@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- Navigation links -->
+            <a href="/"> Home </a>
+            <a href="#" onclick="showLoginForm(); return false;"> Login </a>
+            <a href="#" onclick="showRegisterForm(); return false;"> Register </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Đăng nhập form -->
+        <div id="login-form" style="display:none;">
+            <h2 class = "titles">Login</h2>
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+
+        <!-- Đăng ký form -->
+        <div id="register-form" style="display:none;">
+            <h2 class = "titles">Register</h2>
+            <input type="text" id="register-username" placeholder="Username">
+            <input type="password" id="register-password" placeholder="Password">
+            <input type="text" id="register-email" placeholder="Email">
+            <input type="text" id="register-fullname" placeholder="Fullname">
+            <!-- Thêm các trường khác tùy theo mô hình người dùng của bạn -->
+            <button onclick="register()">Register</button>
+        </div>
+
+
+    </main>
+
+    
+
+    <script src="js/script.js"></script>
+    <script src="js/user.js"> </script>
+    <script src = "js/post.js"> </script>
+</body>
+</html>

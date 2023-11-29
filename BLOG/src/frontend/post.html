@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đăng Bài Viết</title>
+    <link rel="stylesheet" href="css/post.css">
+</head>
+<body>
+    <!-- <h1>Đăng Bài Viết</h1> -->
+    <form id="post-form">
+        <label for="title">Tiêu Đề:</label>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="content">Nội Dung:</label> 
+        <br>
+        <textarea id="content" name="content" required></textarea><br><br>
+        
+        <label for="category">Chọn Chủ Đề:</label>
+        <select id="category" name="category_id">
+            <option value="1">HỌC TẬP</option>
+            <option value="2">ÂM NHẠC</option>
+            <option value="3">XÃ HỘI</option>
+            <option value="4">TÂM SỰ</option>
+            <option value="5">PHIM ẢNH</option>
+            <option value="6">LỜI KHUYÊN</option>
+            <option value="7">KẾT BẠN</option>
+        </select>
+        <button type="submit">Đăng Bài Viết</button>
+    </form>
+
+    <!-- <div id="posts-container">
+        <h2>Posts</h2>  -->
+        <!-- Bài viết sẽ được thêm vào đây bởi JavaScript -->
+    <!-- </div>  -->
+
+    <a id="view-posts-button" href="postlist.html">Xem các bài đăng</a>
+
+    <script>
+        const form = document.querySelector('#post-form');
+        const postList = document.querySelector('#post-list');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const title = document.querySelector('#title').value;
+            const content = document.querySelector('#content').value;
+            const category_id = document.querySelector('#category').value;
+
+            fetch('/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title, content, category_id }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data.message);
+                    // Lấy và hiển thị danh sách bài viết sau khi đăng bài viết thành công
+                    fetch('/posts')
+                        .then((response) => response.json())
+                        .then((posts) => {
+                            // Hiển thị danh sách bài viết trên giao diện người dùng
+                            postList.innerHTML = ''; // Xóa nội dung cũ
+
+                            posts.forEach((post) => {
+                                const postItem = document.createElement('div');
+                                postItem.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+                                postList.appendChild(postItem);
+                            });
+                        })
+                        .catch((error) => {
+                            console.error('Error fetching posts:', error);
+                            // Xử lý lỗi nếu có
+                        });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    // Xử lý lỗi nếu có
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danh Sách Bài Đăng</title>
+    <link rel="stylesheet" href="css/postlist.css">
+</head>
+<body>
+    
+    <div id = "task"> 
+        <!-- Thêm trường nhập hoặc select box để chọn category -->
+        <label for="category-select">Chọn Chủ Đề:</label>
+        <select id="category-select">
+            <option value="">Tất cả</option>
+            <option value="1">HỌC TẬP</option>
+            <option value="2">ÂM NHẠC</option>
+            <option value="3">XÃ HỘI</option>
+            <option value="4">TÂM SỰ</option>
+            <option value="5">PHIM ẢNH</option>
+            <option value="6">LỜI KHUYÊN</option>
+            <option value="7">KẾT BẠN</option>
+        </select>
+    
+        <!-- Thêm nút tìm kiếm -->
+        <button id="search-button">Tìm Kiếm</button>
+    </div>
+ 
+     <div id="post-list"></div>
+
+
+    <script>
+    // Lắng nghe sự kiện khi nút tìm kiếm được ấn
+    const searchButton = document.querySelector('#search-button');
+    searchButton.addEventListener('click', () => {
+        const selectedCategory = document.querySelector('#category-select').value;
+        console.log(selectedCategory);
+
+        // Gọi hàm để lấy danh sách bài viết dựa trên chủ đề đã chọn
+        getPosts(selectedCategory);
+    });
+
+// Hàm để hiển thị danh sách các bài viết
+function displayPostList(posts) {
+    const postList = document.querySelector('#post-list');
+
+    // Xóa nội dung cũ
+    postList.innerHTML = '';
+
+    // Hiển thị danh sách bài viết
+    posts.forEach((post) => {
+        const postItem = document.createElement('div');
+        postItem.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+        postList.appendChild(postItem);
+    });
+}
+
+// Lấy danh sách các bài viết từ máy chủ dựa trên chủ đề
+function getPosts(categoryId) {
+    fetch(`/posts?category_id=${categoryId}`)
+        .then((response) => response.json())
+        .then((posts) => {
+            // Gọi hàm để hiển thị danh sách bài viết
+            displayPostList(posts);
+        })
+        .catch((error) => {
+            console.error('Error fetching posts:', error);
+            // Xử lý lỗi nếu có
+        });
+}
+
+       
+    </script>
+</body>
+</html>

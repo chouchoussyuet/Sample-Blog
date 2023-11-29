@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danh Sách Bài Đăng Theo Chủ Đề</title>
+</head>
+<body>
+    <h1>Danh Sách Bài Đăng Theo Chủ Đề</h1>
+    
+    <div id="post-list"></div>
+    <div id="message"></div>
+
+    <script>
+        // Hàm để hiển thị danh sách các bài đăng
+        function displayPostList(posts) {
+            const postList = document.querySelector('#post-list');
+
+            // Xóa nội dung cũ
+            postList.innerHTML = '';
+
+            // Hiển thị danh sách bài đăng
+            posts.forEach((post) => {
+                const postItem = document.createElement('div');
+                postItem.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+                postList.appendChild(postItem);
+            });
+        }
+
+        // Hàm để hiển thị thông báo
+        function displayMessage(message) {
+            const messageDiv = document.querySelector('#message');
+            messageDiv.textContent = message;
+        }
+
+        // Lấy tham số từ URL
+        function getQueryParam(name) {
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            return urlSearchParams.get(name);
+        }
+
+        // Lấy category_id từ URL
+        const category_id = getQueryParam('category_id');
+
+        // Nếu category_id có trong URL, yêu cầu máy chủ trả về danh sách các bài đăng thuộc chủ đề đó
+        if (category_id) {
+            fetch(`/posts?category_id=${category_id}`)
+                .then((response) => response.json())
+                .then((posts) => {
+                    if (posts.length > 0) {
+                        // Gọi hàm để hiển thị danh sách bài đăng
+                        displayPostList(posts);
+                    } else {
+                        displayMessage('Chưa có bài đăng nào thuộc chủ đề này.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching posts:', error);
+                    // Xử lý lỗi nếu có
+                });
+        } else {
+            // Nếu không có category_id trong URL, hiển thị thông báo
+            displayMessage('Không tìm thấy category_id trong URL.');
+        }
+    </script>
+</body>
+</html>
