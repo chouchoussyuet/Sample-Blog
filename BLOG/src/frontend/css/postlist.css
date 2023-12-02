@@ -21,12 +21,32 @@ body {
 }
 
 #post-list {
-        display : flex;
-        background-color : rgba(146, 125, 125, 0.726);
-        padding : auto;
-        border-radius : 20px;
-        position : relative;
-        white-space: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
+
+.post-item {
+    background-color: #f9f9f9; /* Màu nền nhẹ */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 15px;
+    transition: transform 0.3s ease;
+}
+
+.post-item:hover {
+    transform: scale(1.05);
+}
+
+.post-item h2 {
+    font-family: headline;
+    color: #333; /* Màu chữ */
+    margin-bottom: 10px;
+}
+
+.post-item p {
+    font-family: eb;
+    color: #666; /* Màu chữ */
+}
+

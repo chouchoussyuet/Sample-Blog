@@ -49,6 +49,9 @@
             console.log('Login successful:', data);
             alert('Login successful!');
             
+            // Lưu token vào localStorage
+            localStorage.setItem('accessToken', data.token);
+
             // Redirect to post.html
             window.location.href = 'post.html';
         })

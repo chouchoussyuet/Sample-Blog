@@ -27,7 +27,34 @@ router.post('/login', (req, res) => {
                 });
             }
         } else {
-            // Tạo token nếu cần
+            // Tạo token nếu đăng nhập thành công
+            const token = jwt.sign(
+                { userId: data.user.user_id, username: data.user.username },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '24h' }
+            );
+
+            res.send({ user: data.user, token: token });
+        }
+    });
+});
+
+// Lấy thông tin người dùng bằng userId
+router.get('/:userId', (req, res) => {
+    const userId = req.params.userId;
+
+    User.findById(userId, (err, user) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `User not found with id ${userId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving user with id " + userId
+                });
+            }
+        } else {
             res.send(user);
         }
     });

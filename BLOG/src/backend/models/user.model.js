@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const db = require('../config/db.config.js');
 const bcrypt = require('bcrypt');
 
@@ -35,7 +36,15 @@ User.findByUsernameAndPassword = (username, password, result) => {
             // Kiểm tra mật khẩu
             const validPassword = bcrypt.compareSync(password, res[0].password);
             if (validPassword) {
-                result(null, res[0]);
+                // result(null, res[0]);
+                // Tạo JWT token
+                const token = jwt.sign(
+                    { userId: res[0].user_id, username: res[0].username },
+                    process.env.ACCESS_TOKEN_SECRET,
+                    { expiresIn: '24h' } // Token hết hạn sau 24 giờ
+                );
+
+                result(null, { user: res[0], token: token });
             } else {
                 result({ kind: "not_found" }, null);
             }
@@ -44,6 +53,24 @@ User.findByUsernameAndPassword = (username, password, result) => {
         }
     });
 };
+
+// find user by Id 
+User.findById = (userId, result) => {
+    db.query("SELECT * FROM USERS WHERE user_id = ?", [userId], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            result(null, res[0]);
+        } else {
+            result({ kind: "not_found" }, null);
+        }
+    });
+};
+
 
 // ... export ...
 

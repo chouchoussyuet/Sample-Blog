@@ -20,13 +20,13 @@ const postRoutes = require('./routes/post.routes');
 const userRoutes = require('./routes/user.routes');
 const commentRoutes = require('./routes/comment.routes');
 const categoryRoutes = require('./routes/category.routes');
-const upRoutes = require('./routes/up.routes');
+
 
 app.use('/posts', postRoutes);
 app.use('/users', userRoutes);
 app.use('/comments', commentRoutes);
 app.use('/categories', categoryRoutes);
-app.use('/up', upRoutes);
+
 
 // Lắng nghe trên cổng được chỉ định
 app.listen(PORT, () => {

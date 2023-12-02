@@ -24,6 +24,9 @@
             <option value="7">KẾT BẠN</option>
         </select>
         <button type="submit">Đăng Bài Viết</button>
+
+        <div id="success-message" style="display: none; color: green;">Đăng bài viết thành công!</div>
+
     </form>
 
     <!-- <div id="posts-container">
@@ -44,17 +47,31 @@
             const content = document.querySelector('#content').value;
             const category_id = document.querySelector('#category').value;
 
+            // Lấy user_id từ session hoặc cookie
+            const user_id = sessionStorage.getItem('user_id') || localStorage.getItem('user_id');
+            console.log('User ID:', user_id); // Thêm dòng này để kiểm tra
+            
+            // Đảm bảo rằng user_id tồn tại
+            if (!user_id) {
+                console.error('User ID not found');
+                return;
+            }
+
             fetch('/posts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title, content, category_id }),
+                body: JSON.stringify({ title, content, category_id, user_id }), // thêm user_id vào đây
             })
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data.message);
                     // Lấy và hiển thị danh sách bài viết sau khi đăng bài viết thành công
+
+                    // Hiển thị thông báo thành công
+                    document.getElementById('success-message').style.display = 'block';
+
                     fetch('/posts')
                         .then((response) => response.json())
                         .then((posts) => {

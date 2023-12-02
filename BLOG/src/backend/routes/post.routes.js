@@ -6,9 +6,10 @@ const Post = require('../models/post.model');
 
 // Tạo bài viết mới
 router.post('/', (req, res) => {
-  const { title, content, category_id } = req.body;
+  const { title, content, category_id, user_id } = req.body;
+  console.log('Received user ID:', user_id); // Thêm dòng này để kiểm tra
 
-  Post.create(title, content, category_id, (err, result) => {
+  Post.create(title, content, category_id, user_id, (err, result) => {
     if (err) {
       res.status(500).json({ message: 'Internal Server Error' });
       return;
@@ -44,6 +45,27 @@ router.get('/', (req, res) => {
       res.status(200).json(posts);
     });
   }
+});
+
+router.get('/:id', (req, res) => {
+  Post.getDetailed(req.params.id, (err, post) => {
+    if (err) {
+      res.status(500).send({ message: "Error retrieving post" });
+    } else {
+      res.status(200).send(post);
+    }
+  });
+});
+
+// Xóa bài viết
+router.delete('/:id', (req, res) => {
+  Post.delete(req.params.id, (err, result) => {
+    if (err) {
+      res.status(500).json({ message: 'Internal Server Error' });
+      return;
+    }
+    res.status(200).json({ message: 'Post deleted successfully' });
+  });
 });
 
 

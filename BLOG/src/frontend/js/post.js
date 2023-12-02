@@ -1,12 +1,14 @@
 function submitPost() {
     var title = document.getElementById('post-title').value;
     var content = document.getElementById('post-content').value;
+    var token = localStorage.getItem('accessToken');
 
     fetch('http://localhost:3000/posts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // Thêm header xác thực nếu cần
+            // Thêm header xác thực 
+            'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ title: title, content: content }),
     })
@@ -37,3 +39,9 @@ function fetchPosts() {
 document.addEventListener("DOMContentLoaded", function() {
     fetchPosts();
 });
+
+function logout() {
+    localStorage.removeItem('accessToken');
+    window.location.href = '/index.html'; // trang chủ
+}
+

@@ -16,4 +16,5 @@ Comment.create = (newComment, result) => {
     });
 };
 
+
 module.exports = Comment;

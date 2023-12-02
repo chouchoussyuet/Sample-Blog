@@ -23,8 +23,10 @@
         <!-- Thêm nút tìm kiếm -->
         <button id="search-button">Tìm Kiếm</button>
     </div>
- 
+    
+      
      <div id="post-list"></div>
+     
 
 
     <script>
@@ -38,34 +40,138 @@
         getPosts(selectedCategory);
     });
 
-// Hàm để hiển thị danh sách các bài viết
-function displayPostList(posts) {
+    // Hàm để hiển thị danh sách các bài viết
+    function displayPostList(posts) {
+        const postList = document.querySelector('#post-list');
+
+        // Xóa nội dung cũ
+        postList.innerHTML = '';
+
+        // Hiển thị danh sách bài viết
+        posts.forEach((post) => {
+            const commentsHTML = Array.isArray(post.comments) ? post.comments.map(comment => `<p>${comment.comment_content} bởi ${comment.username}</p>`).join('') : '';
+            const postItem = document.createElement('div');
+            postItem.classList.add('post-item');
+            postItem.innerHTML = `
+            // <h2>${post.title}</h2>
+            // ...
+            // <button class="delete-button" data-post-id="${post.post_id}">Xóa</button>
+            // ...
+            // `;
+
+            // postItem.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+        //     postItem.innerHTML = `
+        //     <h2>${post.title}</h2>
+        //     <p>Đăng bởi: ${post.username}</p>
+        //     <p>${post.content}</p>
+        //     <div class="comments">
+        //         ${commentsHTML}
+        //     </div>
+        //     <form class="comment-form" data-post-id="${post.id}">
+        //         <input type="text" placeholder="Bình luận của bạn" class="comment-input"/>
+        //         <button type="submit">Gửi</button>
+        //     </form>
+        //     `;
+        //     postList.appendChild(postItem);
+        // });
+        fetch(`/users/${post.user_id}`)
+            .then(response => response.json())
+            .then(user => {
+                postItem.innerHTML = `
+                <h2>${post.title}</h2>
+                <button class="delete-button" data-post-id="${post.post_id}">Xóa</button>
+                <p>Đăng bởi: ${user.username}</p>
+                <p>${post.content}</p>
+                <div class="comments">
+                    ${commentsHTML}
+                </div>
+                <form class="comment-form" data-post-id="${post.post_id}">
+                    <input type="text" placeholder="Bình luận của bạn" class="comment-input"/>
+                    <button type="submit">Gửi</button>
+                </form>
+                `;
+                postList.appendChild(postItem);
+            })
+            .catch(error => console.error('Error fetching user:', error));
+        });
+    }
+
+
+    // Lấy danh sách các bài viết từ máy chủ dựa trên chủ đề
+    function getPosts(categoryId) {
+        fetch(`/posts?category_id=${categoryId}`)
+            .then((response) => response.json())
+            .then((posts) => {
+                // Gọi hàm để hiển thị danh sách bài viết
+                displayPostList(posts);
+            })
+            .catch((error) => {
+                console.error('Error fetching posts:', error);
+                // Xử lý lỗi nếu có
+            });
+    }
+
+    // bình luận
+    document.addEventListener('DOMContentLoaded', () => {
     const postList = document.querySelector('#post-list');
 
-    // Xóa nội dung cũ
-    postList.innerHTML = '';
+    postList.addEventListener('submit', function(event) {
+        if (event.target.matches('.comment-form')) {
+            event.preventDefault();
 
-    // Hiển thị danh sách bài viết
-    posts.forEach((post) => {
-        const postItem = document.createElement('div');
-        postItem.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
-        postList.appendChild(postItem);
+            const postId = event.target.getAttribute('data-post-id');
+            const commentInput = event.target.querySelector('.comment-input');
+            const commentContent = commentInput.value; // Sử dụng đúng tên biến ở đây
+            const token = localStorage.getItem('accessToken');
+
+            // Gửi bình luận đến server...
+            fetch('/comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ post_id: postId, content: commentContent }) // Sử dụng commentContent
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Bình luận được thêm thành công:', data);
+                // Thêm bình luận vào giao diện người dùng
+                const commentsContainer = event.target.querySelector('.comments');
+                commentsContainer.innerHTML += `<p>${data.data.content} </p>`;
+            })
+            .catch(error => console.error('Lỗi:', error));
+        }
     });
-}
+});
 
-// Lấy danh sách các bài viết từ máy chủ dựa trên chủ đề
-function getPosts(categoryId) {
-    fetch(`/posts?category_id=${categoryId}`)
-        .then((response) => response.json())
-        .then((posts) => {
-            // Gọi hàm để hiển thị danh sách bài viết
-            displayPostList(posts);
-        })
-        .catch((error) => {
-            console.error('Error fetching posts:', error);
-            // Xử lý lỗi nếu có
-        });
-}
+
+document.querySelector('#post-list').addEventListener('click', function(event) {
+  if (event.target.matches('.delete-button')) {
+    const postId = event.target.getAttribute('data-post-id');
+    const token = localStorage.getItem('accessToken');
+
+    fetch(`/posts/${postId}`, {
+      method: 'DELETE',
+      headers: {
+                'Authorization': `Bearer ${token}`
+            }
+    })
+    .then(response => {
+      if(response.ok) {
+        console.log('Bài viết đã được xóa');
+        event.target.closest('.post-item').remove(); // Xóa bài viết khỏi giao diện
+      } else {
+                throw new Error('Không có quyền xóa bài viết này');
+      }
+    })
+    .catch(error => {
+            console.error('Lỗi:', error);
+            alert('Lỗi xóa bài viết: ' + error.message);
+    });
+  }
+});
+
 
        
     </script>
