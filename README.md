@@ -1,16 +1,16 @@
 # Sample Blog 
 ## Website 
-** Màn hình chính gồm các chức năng **
+**Màn hình chính gồm các chức năng**
 - Đăng ký
 - Đăng nhập
   
 ![1](https://github.com/chouchoussyuet/Sample-Blog/assets/127434817/5f6307ee-1e3d-4f50-8153-5c361033c88b)
 
-** Chức năng đăng bài viết **
+**Chức năng đăng bài viết**
 
 ![post](https://github.com/chouchoussyuet/Sample-Blog/assets/127434817/52fac609-cedd-4c71-9af8-b8a1f2d1f81f)
 
-** Xem danh sách các bài viết **
+**Xem danh sách các bài viết**
 
 - Hiển thị tất cả các bài viết
 - Hiển thị các bài đăng theo chủ đề
